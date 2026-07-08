@@ -1,7 +1,11 @@
 import jwt from "jsonwebtoken";
 
 const authSeller = async (req, res, next) => {
+    console.log("Cookies:", req.cookies);
+
     const { sellerToken } = req.cookies;
+
+    console.log("Seller Token:", sellerToken);
 
     if (!sellerToken) {
         return res.json({
@@ -9,7 +13,6 @@ const authSeller = async (req, res, next) => {
             message: "Not Authorized",
         });
     }
-
     try {
         const decoded = jwt.verify(sellerToken, process.env.JWT_SECRET);
 
