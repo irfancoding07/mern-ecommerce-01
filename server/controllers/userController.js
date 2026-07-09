@@ -22,12 +22,19 @@ export const register = async (req, res) => {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
 
-        res.cookie('token', token, {
-            httpOnly: true, //prevent JavaScript to access cookie
-            secure: process.env.NODE_ENV === 'production', //Use secure cookies in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', //CSRF protection
-            maxAge: 7 * 24 * 60 * 60 * 1000,  //cookie expiration time
-        })
+        // res.cookie('token', token, {
+        //     httpOnly: true, //prevent JavaScript to access cookie
+        //     secure: process.env.NODE_ENV === 'production', //Use secure cookies in production
+        //     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', //CSRF protection
+        //     maxAge: 7 * 24 * 60 * 60 * 1000,  //cookie expiration time
+        // })
+
+        res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+});
 
         return res.json({ success: true, user: { email: user.email, name: user.name } })
     } catch (error) {
@@ -59,12 +66,20 @@ export const login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
 
-        res.cookie('token', token, {
-            httpOnly: true, //prevent JavaScript to access cookie
-            secure: process.env.NODE_ENV === 'production', //Use secure cookies in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', //CSRF protection
-            maxAge: 7 * 24 * 60 * 60 * 1000,  //cookie expiration time
-        })
+        // res.cookie('token', token, {
+        //     httpOnly: true, //prevent JavaScript to access cookie
+        //     secure: process.env.NODE_ENV === 'production', //Use secure cookies in production
+        //     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', //CSRF protection
+        //     maxAge: 7 * 24 * 60 * 60 * 1000,  //cookie expiration time
+        // })
+
+
+        res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+});
 
         return res.json({ success: true, user: { email: user.email, name: user.name } })
     } catch (error) {
@@ -114,11 +129,17 @@ export const isAuth = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        res.clearCookie('token', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-        });
+        // res.clearCookie('token', {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === 'production',
+        //     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+        // });
+
+        res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+});
         return res.json({ success: true, message: "Logged Out" })
     } catch (error) {
          console.log(error.message); 
